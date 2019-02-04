@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="BrailleConversionApi20190113102254" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\jorda\\source\\repos\\BrailleConversionApi\\BrailleConversionApi\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\jorda\\source\\repos\\BrailleConversionApi\\BrailleConversionApi\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+</parameters>
