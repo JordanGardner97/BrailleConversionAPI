@@ -29,20 +29,20 @@ namespace BrailleConversionApi.Controllers
 
 
         [HttpGet]
-        public IHttpActionResult Get(Stream imageToConvert)
+        [Route("api/GetLetterReponse/{Base64Image:alpha}")]
+        public IHttpActionResult Get(String Base64Image)
         {
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
 
+            byte[] byteresponse = Convert.FromBase64String(Base64Image);
 
-            if (imageToConvert == null)
-            {
-                Debug.WriteLine("I am Fucked");
-            }
+            MemoryStream imageToConvert = new MemoryStream(byteresponse);
+       
 
             Debug.WriteLine("Here I am!!!!!");
                 BraileConverted letter = new BraileConverted();
                 Bitmap image =new Bitmap(imageToConvert);
-                //Stopping here
+                
                 ImageCoversionClass normalPicture = new ImageCoversionClass();
                 Debug.WriteLine("Got Here");
                 Bitmap greyImage = normalPicture.Invert(image);
@@ -84,17 +84,11 @@ namespace BrailleConversionApi.Controllers
             var provider = new MultipartFormDataStreamProvider(root);
             var result = await Request.Content.ReadAsMultipartAsync(provider);
 
-           
-
-            // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
-            // so this is how you can get the original file name
             var originalFileName = GetDeserializedFileName(result.FileData.First());
 
             var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
             string path = result.FileData.First().LocalFileName;
-
-            //Do whatever you want to do with your file here
-
+            
             BraileConverted letter = new BraileConverted();
             Bitmap image = new Bitmap(path);
             //Stopping here
