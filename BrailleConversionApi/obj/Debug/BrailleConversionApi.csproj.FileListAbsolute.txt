@@ -63,10 +63,10 @@ C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\bin\System
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\bin\System.Web.Http.xml
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\bin\System.Web.Http.WebHost.xml
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.csprojAssemblyReference.cache
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.csproj.CoreCompileInputs.cache
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.csproj.CopyComplete
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.dll
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.pdb
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.Resource1.resources
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.csproj.GenerateResource.cache
+C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.csprojAssemblyReference.cache

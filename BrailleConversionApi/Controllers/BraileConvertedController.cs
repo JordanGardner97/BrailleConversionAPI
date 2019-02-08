@@ -28,35 +28,34 @@ namespace BrailleConversionApi.Controllers
 
 
 
-        [HttpGet]
-        [Route("api/GetLetterReponse/{Base64Image:alpha}")]
-        public IHttpActionResult Get(String Base64Image)
+        [HttpPost]
+        [Route("api/GetLetterReponse")]
+        public async Task<HttpResponseMessage> Post([FromBody] Stream Base64Image)
         {
+            Image m;
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+            using (var stream = await Request.Content.ReadAsStreamAsync())
+            {
+               
+                 m = Image.FromStream(stream);
+            }
+            Bitmap bmp = new Bitmap(m);
 
-            byte[] byteresponse = Convert.FromBase64String(Base64Image);
+            ImageCoversionClass normalPicture = new ImageCoversionClass();
+            Debug.WriteLine("Got Here");
+            Bitmap blackImage = normalPicture.GreyImage(bmp);
+            Bitmap greyImage = normalPicture.Invert(blackImage);
+            SimilarityClass sim = new SimilarityClass();
+            BraileConverted letter = new BraileConverted();
+            letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
 
-            MemoryStream imageToConvert = new MemoryStream(byteresponse);
-       
+            Debug.WriteLine("The Letter is "+ letter.CovertedBrailleLetter);
 
-            Debug.WriteLine("Here I am!!!!!");
-                BraileConverted letter = new BraileConverted();
-                Bitmap image =new Bitmap(imageToConvert);
-                
-                ImageCoversionClass normalPicture = new ImageCoversionClass();
-                Debug.WriteLine("Got Here");
-                Bitmap greyImage = normalPicture.Invert(image);
-
-                BraileImages m = new BraileImages();
-
-                SimilarityClass sim = new SimilarityClass();
-
-                letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
-                return Ok(letter.CovertedBrailleLetter);
-           
-
+            return response;
 
         }
+
+          
 
 
         private string GetDeserializedFileName(MultipartFileData fileData)

@@ -41,24 +41,23 @@ namespace BrailleConversionApi.Classes
 
         }
 
-        public Bitmap GreyImage()
+        public Bitmap GreyImage(Bitmap bmp)
         {
             // create grayscale filter (BT709)
             Grayscale filter = new Grayscale(0.2125, 0.7154, 0.0721);
             // apply the filter
-            Bitmap greyedImage = filter.Apply(BitmapToBeGreyed);
-            Threshold thresFilter = new Threshold(100);
-            Bitmap blackenedImage = filter.Apply(greyedImage);
+            Bitmap greyedImage = filter.Apply(bmp);
+            
 
 
 
-            return blackenedImage;
+            return greyedImage;
         }
 
-        public Bitmap ThreseHoldImage()
+        public Bitmap ThreseHoldImage(Bitmap bmp)
         {
             Threshold filter = new Threshold(100);
-            Bitmap blackenedImage = filter.Apply(BitmapToBeBlackened);
+            Bitmap blackenedImage = filter.Apply(bmp);
 
             return blackenedImage;
         }
