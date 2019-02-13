@@ -77,6 +77,22 @@ namespace BrailleConversionApi.Classes
             
         }
 
+        public List<Bitmap> cropImageIntoSegments(Bitmap imageToBeCropped)
+        {
+            List<Bitmap> images     = new List<Bitmap>();
+            Crop topLeftCorner      = new Crop(new Rectangle(0, 150, 50,50));
+            Crop topRightCorner     = new Crop(new Rectangle(50,150, 50, 50));
+            Crop leftMiddleCorner   = new Crop(new Rectangle(0, 100, 50, 50));
+            Crop rightMiddleCorner  = new Crop(new Rectangle(50, 100, 50, 50));
+            Crop bottomLeftCorner   = new Crop(new Rectangle(0, 50, 50, 50));
+            Crop bottomRightCorner  = new Crop(new Rectangle(50, 50, 0 , 0));
+            images.Add(topLeftCorner.Apply(imageToBeCropped));
+
+            return images;
+        }
+
+        
+
         public string CompareLetter()
         {
             return "No Match could Be Found";

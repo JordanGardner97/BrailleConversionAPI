@@ -20,10 +20,10 @@ namespace BrailleConversionApi.Controllers
     {
 
         [HttpGet]
-        [Route("api/GetReponse")]
-        public IHttpActionResult Get()
+        [Route("api/GetLetter/{Letter:alpha}")]
+        public IHttpActionResult Get(String Letter)
         {
-            return Ok("No picture has been provided");
+            return Ok(Letter);
         }
 
 
@@ -33,7 +33,8 @@ namespace BrailleConversionApi.Controllers
         public async Task<HttpResponseMessage> Post([FromBody] Stream Base64Image)
         {
             Image m;
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+            
+
             using (var stream = await Request.Content.ReadAsStreamAsync())
             {
                
@@ -50,6 +51,12 @@ namespace BrailleConversionApi.Controllers
             letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
 
             Debug.WriteLine("The Letter is "+ letter.CovertedBrailleLetter);
+            HttpRequestMessage request = new HttpRequestMessage();
+
+          
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+            response.Headers.Location = new Uri( "GetLetter/" + letter.CovertedBrailleLetter);
 
             return response;
 
