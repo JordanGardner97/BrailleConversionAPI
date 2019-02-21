@@ -123,7 +123,9 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\BraileImages.cs" />
+    <Compile Include="Classes\CircleDetectionClass.cs" />
     <Compile Include="Classes\ImageConversionClass.cs" />
+    <Compile Include="Classes\LetterDector.cs" />
     <Compile Include="Classes\SimilarityClass.cs" />
     <Compile Include="Classes\Utils.cs" />
     <Compile Include="Controllers\BraileConvertedController.cs" />

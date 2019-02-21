@@ -8,10 +8,18 @@ namespace BrailleConversionApi.Models
 {
     public class BraileConverted
     {
-        
+        public BraileConverted()
+        {
+            CovertedBrailleLetter = "unknown";
+        }
+
+        public BraileConverted(String letter)
+        {
+            CovertedBrailleLetter = letter;
+        }
         public string CovertedBrailleLetter {get; set;}
 
        
-        public Stream ImageToBeConverted { get; set; }
+        
     }
 }

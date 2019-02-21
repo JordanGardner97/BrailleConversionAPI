@@ -14,11 +14,13 @@ namespace BrailleConversionApi.Classes
         MemoryStream Imagestream { get; set; }
         Bitmap BitmapToBeGreyed { get; set; }
         Bitmap BitmapToBeBlackened { get; set; }
+        Bitmap BitmapToBeResized { get; set; }
 
         public ImageCoversionClass(Bitmap image)
         {
             this.BitmapToBeGreyed = image;
             this.BitmapToBeBlackened = image;
+            this.BitmapToBeResized = image;
         }
 
         public ImageCoversionClass(Stream streamImage)
@@ -32,6 +34,7 @@ namespace BrailleConversionApi.Classes
         {
             BitmapToBeGreyed = new Bitmap(image);
             BitmapToBeBlackened = new Bitmap(image);
+
 
         }
 
@@ -79,16 +82,39 @@ namespace BrailleConversionApi.Classes
 
         public List<Bitmap> cropImageIntoSegments(Bitmap imageToBeCropped)
         {
-            List<Bitmap> images     = new List<Bitmap>();
-            Crop topLeftCorner      = new Crop(new Rectangle(0, 150, 50,50));
-            Crop topRightCorner     = new Crop(new Rectangle(50,150, 50, 50));
-            Crop leftMiddleCorner   = new Crop(new Rectangle(0, 100, 50, 50));
-            Crop rightMiddleCorner  = new Crop(new Rectangle(50, 100, 50, 50));
-            Crop bottomLeftCorner   = new Crop(new Rectangle(0, 50, 50, 50));
-            Crop bottomRightCorner  = new Crop(new Rectangle(50, 50, 0 , 0));
+            List<Bitmap> images = new List<Bitmap>();
+            Crop topLeftCorner = new Crop(new Rectangle(0, 0, 500, 500));
+            Crop topRightCorner = new Crop(new Rectangle(0, 500, 500, 500));
+            Crop leftMiddleCorner = new Crop(new Rectangle(0, 500, 500, 500));
+            Crop rightMiddleCorner = new Crop(new Rectangle(500, 500, 500, 500));
+            Crop bottomLeftCorner = new Crop(new Rectangle(0, 1000, 500, 500));
+            Crop bottomRightCorner = new Crop(new Rectangle(500, 1000, 500, 500));
+
             images.Add(topLeftCorner.Apply(imageToBeCropped));
+            images.Add(topRightCorner.Apply(imageToBeCropped));
+            images.Add(leftMiddleCorner.Apply(imageToBeCropped));
+            images.Add(rightMiddleCorner.Apply(imageToBeCropped));
+            images.Add(bottomLeftCorner.Apply(imageToBeCropped));
+            images.Add(bottomRightCorner.Apply(imageToBeCropped));
 
             return images;
+        }
+
+
+        public Bitmap ResizeImage()
+        {
+            ResizeNearestNeighbor filter = new ResizeNearestNeighbor(1000, 1500);
+            try
+            {
+               
+                Bitmap resizedImage = filter.Apply(BitmapToBeResized);
+                return resizedImage;
+            }
+            catch (Exception)
+            {
+                Bitmap resizedImage = filter.Apply(GreyImage(BitmapToBeResized));
+                return resizedImage;
+            }
         }
 
         

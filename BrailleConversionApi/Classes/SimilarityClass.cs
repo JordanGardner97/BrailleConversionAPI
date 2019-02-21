@@ -54,18 +54,40 @@ namespace BrailleConversionApi.Classes
                     }
 
                     count++;
-
+                    Debug.WriteLine("The count is" + count);
                 }
-                Debug.WriteLine("The count is" + count);
+               
 
                 return Letters[letterCount];
             }
             catch(IndexOutOfRangeException ex)
             {
-                return "Picture could not be identifed";
+                Debug.WriteLine("The letter could not be Identified");
+                return "Unknown";
             }
 
 
+        }
+
+
+        //funtion to check the image against stored
+
+        public String PresentDotsInPhoto(List<Bitmap> brailePictureList)
+        {
+            List<Bitmap> brailePictures = pictures.BitmapList;
+            ImageCoversionClass spliter = new ImageCoversionClass();
+
+            List<Bitmap> bmpToCompare =  spliter.cropImageIntoSegments(brailePictures[0]);
+
+            
+
+            foreach (var splitImage in brailePictureList)
+            {
+
+
+            }
+
+            return "";
         }
 
 

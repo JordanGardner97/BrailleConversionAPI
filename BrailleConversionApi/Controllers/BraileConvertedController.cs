@@ -23,7 +23,9 @@ namespace BrailleConversionApi.Controllers
         [Route("api/GetLetter/{Letter:alpha}")]
         public IHttpActionResult Get(String Letter)
         {
-            return Ok(Letter);
+            BraileConverted letter = new BraileConverted(Letter);
+            
+            return Ok(letter);
         }
 
 
@@ -32,31 +34,54 @@ namespace BrailleConversionApi.Controllers
         [Route("api/GetLetterReponse")]
         public async Task<HttpResponseMessage> Post([FromBody] Stream Base64Image)
         {
-            Image m;
+            Image imageSentFromApi;
             
 
             using (var stream = await Request.Content.ReadAsStreamAsync())
             {
-               
-                 m = Image.FromStream(stream);
-            }
-            Bitmap bmp = new Bitmap(m);
 
-            ImageCoversionClass normalPicture = new ImageCoversionClass();
-            Debug.WriteLine("Got Here");
-            Bitmap blackImage = normalPicture.GreyImage(bmp);
-            Bitmap greyImage = normalPicture.Invert(blackImage);
-            SimilarityClass sim = new SimilarityClass();
+                imageSentFromApi = Image.FromStream(stream);
+            }
+            Bitmap bmp = new Bitmap(imageSentFromApi);
+
+            ImageCoversionClass normalPicture = new ImageCoversionClass(bmp);
+
+           Bitmap resizedImage =  normalPicture.ResizeImage();
+
+            List<Bitmap> croppedPhotos = normalPicture.cropImageIntoSegments(resizedImage);
+
+            CircleDetectionClass circlesDection = new CircleDetectionClass(croppedPhotos);
+
+            List<bool> circleThereList = circlesDection.GetBoolList();
+
+            LetterDector dectoring = new LetterDector(circleThereList);
+
             BraileConverted letter = new BraileConverted();
-            letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
+
+            letter.CovertedBrailleLetter = dectoring.checkLetter();
+
+
+            /*  ImageCoversionClass normalPicture = new ImageCoversionClass();
+              Debug.WriteLine("Got Here");
+              Bitmap blackImage = normalPicture.GreyImage(bmp);
+              Bitmap greyImage = normalPicture.Invert(blackImage);
+              SimilarityClass sim = new SimilarityClass();
+              BraileConverted letter = new BraileConverted();
+              letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
+              */
+
+
+
+
+
 
             Debug.WriteLine("The Letter is "+ letter.CovertedBrailleLetter);
             HttpRequestMessage request = new HttpRequestMessage();
 
-          
-
+        
+           string url = "https://brailleconversionapi20190131031437.azurewebsites.net/api/GetLetter/" + letter.CovertedBrailleLetter;
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
-            response.Headers.Location = new Uri( "GetLetter/" + letter.CovertedBrailleLetter);
+           response.Headers.Location = new Uri( url);
 
             return response;
 
