@@ -1,12 +1,10 @@
 ﻿using AForge;
 using AForge.Imaging;
+using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Web;
 
 namespace BrailleConversionApi.Classes
 {
@@ -33,21 +31,17 @@ namespace BrailleConversionApi.Classes
 
             return boolList;
         }
-
+        
 
 
         private bool getCirlces(Bitmap bitmap)
         {
             bool isCirclePresent = false;
-            // locate objects using blob counter
+           
             BlobCounter blobCounter = new BlobCounter();
             blobCounter.ProcessImage(bitmap);
             Blob[] blobs = blobCounter.GetObjectsInformation();
-            // create Graphics object to draw on the image and a pen
 
-
-            // check each object and draw circle around objects, which
-            // are recognized as circles
             for (int i = 0, n = blobs.Length; i < n; i++)
             {
                 
@@ -56,7 +50,7 @@ namespace BrailleConversionApi.Classes
                 AForge.Point center;
                 float radius;
                 SimpleShapeChecker shapeChecker = new SimpleShapeChecker();
-
+               
                 if (shapeChecker.IsCircle(edgePoints, out center, out radius))
                 {
                     
@@ -69,5 +63,54 @@ namespace BrailleConversionApi.Classes
 
             return isCirclePresent;
         }
+
+
+        Bitmap getLoctaionOfCircle(Bitmap bitmp, List<int> circleX, List<int> circle1Y, List<int> radius1, int count)
+        {
+            int leftMostItem = circleX[0];
+            int highestDot = circle1Y[0];
+
+            foreach (var item in circleX)
+            {
+                if (item < leftMostItem)
+                {
+                    leftMostItem = item;
+                }
+            }
+
+            foreach (var item in circle1Y)
+            {
+                if (item < highestDot)
+                {
+                    highestDot = item;
+                }
+            }
+            Debug.WriteLine("The highest point is " + highestDot);
+
+            Debug. WriteLine("The LeftMost point is " + leftMostItem);
+
+            int topPoint = (highestDot - radius1[0]) - 1;
+            int leftMostPoint = (leftMostItem - (radius1[0]));
+            int diameter = (radius1[0] * 3);
+
+            Crop topLeftCorner = new Crop(new Rectangle(leftMostPoint, topPoint, diameter * 2, diameter * 4));
+            Bitmap m = topLeftCorner.Apply(bitmp);
+
+
+
+           
+          
+            return topLeftCorner.Apply(bitmp);
+
+
+
+        }
+
+
+
+
+
+
+
     }
 }

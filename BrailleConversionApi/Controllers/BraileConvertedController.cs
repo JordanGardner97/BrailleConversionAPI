@@ -32,7 +32,7 @@ namespace BrailleConversionApi.Controllers
 
         [HttpPost]
         [Route("api/GetLetterReponse")]
-        public async Task<HttpResponseMessage> Post([FromBody] Stream Base64Image)
+        public async Task<HttpResponseMessage> Post()
         {
             Image imageSentFromApi;
             
@@ -45,6 +45,8 @@ namespace BrailleConversionApi.Controllers
             Bitmap bmp = new Bitmap(imageSentFromApi);
 
             ImageCoversionClass normalPicture = new ImageCoversionClass(bmp);
+
+
 
            Bitmap resizedImage =  normalPicture.ResizeImage();
 
