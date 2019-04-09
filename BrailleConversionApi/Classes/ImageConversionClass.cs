@@ -83,20 +83,22 @@ namespace BrailleConversionApi.Classes
         public List<Bitmap> cropImageIntoSegments(Bitmap imageToBeCropped)
         {
 
-            double BitsThirdDouble = (imageToBeCropped.Width * 0.3333);
-            double BitsHalfDouble = (imageToBeCropped.Width * 0.3333);
-
-            int BitsThirdInt = Convert.ToInt32(BitsThirdDouble);
 
 
+            Debug.WriteLine("I have been cropped");
+
+
+            int width = Convert.ToInt32(imageToBeCropped.Width * 0.5);
+            int heightperSqaure = Convert.ToInt32(imageToBeCropped.Height * 0.3333);
 
             List<Bitmap> images = new List<Bitmap>();
-            Crop topLeftCorner = new Crop(new Rectangle(0, 0, 500, 500));
-            Crop topRightCorner = new Crop(new Rectangle(0, 500, 500, 500));
-            Crop leftMiddleCorner = new Crop(new Rectangle(0, 500, 500, 500));
-            Crop rightMiddleCorner = new Crop(new Rectangle(500, 500, 500, 500));
-            Crop bottomLeftCorner = new Crop(new Rectangle(0, 1000, 500, 500));
-            Crop bottomRightCorner = new Crop(new Rectangle(500, 1000, 500, 500));
+            Crop topLeftCorner = new Crop(new Rectangle(0, 0, width, heightperSqaure + 5));
+            Crop topRightCorner = new Crop(new Rectangle(width, 0, width, heightperSqaure + 5));
+            Crop leftMiddleCorner = new Crop(new Rectangle(0, heightperSqaure, width, heightperSqaure + 5));
+            Crop rightMiddleCorner = new Crop(new Rectangle(width, heightperSqaure, width, heightperSqaure + 5));
+            Crop bottomLeftCorner = new Crop(new Rectangle(0, heightperSqaure * 2, width, heightperSqaure + 5));
+            Crop bottomRightCorner = new Crop(new Rectangle(width, heightperSqaure * 2, width, heightperSqaure + 5));
+
 
             images.Add(topLeftCorner.Apply(imageToBeCropped));
             images.Add(topRightCorner.Apply(imageToBeCropped));
@@ -112,17 +114,11 @@ namespace BrailleConversionApi.Classes
         public Bitmap ResizeImage()
         {
             ResizeNearestNeighbor filter = new ResizeNearestNeighbor(1000, 1500);
-            try
-            {
+            
                
                 Bitmap resizedImage = filter.Apply(BitmapToBeResized);
                 return resizedImage;
-            }
-            catch (Exception)
-            {
-                Bitmap resizedImage = filter.Apply(GreyImage(BitmapToBeResized));
-                return resizedImage;
-            }
+            
         }
 
 
@@ -137,12 +133,17 @@ namespace BrailleConversionApi.Classes
 
        public Bitmap edgedetection(Bitmap n)
         {
+            Bitmap greyBitmap = GreyImage(n);
+            Debug.WriteLine("Strating edge dectection filter");
             // create filter
+            Debug.WriteLine("Middle ofedge dectection filter");
             CannyEdgeDetector filter = new CannyEdgeDetector();
             // apply the filter
-            filter.ApplyInPlace(n);
+            Debug.WriteLine("Third ofedge dectection filter");
+            filter.ApplyInPlace(greyBitmap);
+            Debug.WriteLine("forth ofedge dectection filter");
 
-            return n;
+            return greyBitmap;
         }
     }
 }

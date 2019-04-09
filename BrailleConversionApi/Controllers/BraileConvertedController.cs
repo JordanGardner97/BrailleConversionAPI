@@ -42,15 +42,13 @@ namespace BrailleConversionApi.Controllers
 
                 imageSentFromApi = Image.FromStream(stream);
             }
-            Bitmap bmp = new Bitmap(imageSentFromApi);
+          Bitmap bmp = new Bitmap(imageSentFromApi);
 
             ImageCoversionClass normalPicture = new ImageCoversionClass(bmp);
 
-
-
-           Bitmap resizedImage =  normalPicture.ResizeImage();
-
-            List<Bitmap> croppedPhotos = normalPicture.cropImageIntoSegments(resizedImage);
+            //    Bitmap resizedImage =  normalPicture.ResizeImage();
+            
+            List<Bitmap> croppedPhotos = normalPicture.cropImageIntoSegments(normalPicture.edgedetection(bmp));
 
             CircleDetectionClass circlesDection = new CircleDetectionClass(croppedPhotos);
 

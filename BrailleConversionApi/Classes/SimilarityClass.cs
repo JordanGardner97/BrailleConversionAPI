@@ -60,7 +60,7 @@ namespace BrailleConversionApi.Classes
 
                 return Letters[letterCount];
             }
-            catch(IndexOutOfRangeException ex)
+            catch(IndexOutOfRangeException )
             {
                 Debug.WriteLine("The letter could not be Identified");
                 return "Unknown";
