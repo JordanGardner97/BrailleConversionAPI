@@ -152,6 +152,12 @@ namespace BrailleConversionApi.Classes
                 return "Z";
             }
 
+
+            else if (Space())
+            {
+                return " ";
+            }
+
             else
             {
                 return "Unknown";
@@ -602,6 +608,25 @@ namespace BrailleConversionApi.Classes
             }
 
         }
+
+        private bool Space()
+        {
+            //topLeft           topRight          midLeft            midRight          bottomLeft        bottomRight
+            if (!CircleThere[0] && !CircleThere[1] && !CircleThere[2] && !CircleThere[3] && !CircleThere[4] && !CircleThere[5])
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+
+
 
 
     }

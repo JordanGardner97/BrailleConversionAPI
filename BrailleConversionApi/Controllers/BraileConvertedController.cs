@@ -29,7 +29,7 @@ namespace BrailleConversionApi.Controllers
         }
 
 
-
+        //For single braile image
         [HttpPost]
         [Route("api/GetLetterReponse")]
         public async Task<HttpResponseMessage> Post()
@@ -87,7 +87,88 @@ namespace BrailleConversionApi.Controllers
 
         }
 
-          
+
+
+
+        [HttpPost]
+        [Route("api/GetLetterReponse2")]
+        public async Task<HttpResponseMessage> Post2()
+        {
+            Image imageSentFromApi;
+
+
+            using (var stream = await Request.Content.ReadAsStreamAsync())
+            {
+
+                imageSentFromApi = Image.FromStream(stream);
+            }
+            Bitmap bmp = new Bitmap(imageSentFromApi);
+
+            Debug.WriteLine("The width of the orginal bitmap is: " + bmp.Width);
+            Debug.WriteLine("The height of the orginal bitmap is: " + bmp.Height);
+
+
+            Debug.WriteLine("I got 3");
+            ImageCoversionClass converseImage = new ImageCoversionClass();
+            Debug.WriteLine("I got 2");
+
+            List<Bitmap> row =  converseImage.breakBigBitMapUp(bmp);
+            Debug.WriteLine("I got ");
+            List<List<Bitmap>> braileList = new List<List<Bitmap>>();
+            foreach (var i in row)
+            {
+                Debug.WriteLine("The width of the bitmap is: " + i.Width);
+                Debug.WriteLine("The height of the bitmap is: " + i.Height);
+
+                List<int>coordinates = converseImage.GetLocationOfAllCircles(converseImage.edgedetection(i));
+
+
+                braileList.Add( converseImage.cropfromPhotedImage(converseImage.edgedetection(i), coordinates[0], coordinates[1], coordinates[2]));
+
+
+            }
+
+
+            foreach (var j in braileList)
+            {
+
+                Debug.WriteLine("\n");
+                CircleDetectionClass circlesDection = new CircleDetectionClass(j);
+
+                List<bool> circleThereList = circlesDection.GetBoolList();
+
+                LetterDector dectoring = new LetterDector(circleThereList);
+
+                BraileConverted letter = new BraileConverted();
+
+                letter.CovertedBrailleLetter = dectoring.checkLetter();
+
+                Debug.WriteLine("The letter is " + dectoring.checkLetter());
+
+                Debug.WriteLine("i HAVE FINISHED A ROUND "+"\n");
+            }
+
+
+
+
+
+
+
+
+
+            //Debug.WriteLine("The Letter is " + letter.CovertedBrailleLetter);
+            HttpRequestMessage request = new HttpRequestMessage();
+
+
+            //string url = "https://brailleconversionapi20190131031437.azurewebsites.net/api/GetLetter/" + letter.CovertedBrailleLetter;
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
+            //response.Headers.Location = new Uri(url);
+
+            return response;
+
+        }
+
+
 
 
         private string GetDeserializedFileName(MultipartFileData fileData)
