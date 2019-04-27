@@ -43,16 +43,15 @@ namespace BrailleConversionApi.Classes
         public bool getCirlces(Bitmap bitmap)
         {
             bool isCirclePresent = false;
-            // locate objects using blob counter
+            
             BlobCounter blobCounter = new BlobCounter();
             blobCounter.ProcessImage(bitmap);
             Blob[] blobs = blobCounter.GetObjectsInformation();
-            // create Graphics object to draw on the image and a pen
+           
             SimpleShapeChecker shapeChecker = new SimpleShapeChecker();
 
-            shapeChecker.RelativeDistortionLimit = 00.03F;
-            // check each object and draw circle around objects, which
-            // are recognized as circles
+            shapeChecker.RelativeDistortionLimit = 00.15F;
+         
             for (int i = 0, n = blobs.Length; i < n; i++)
             {
 

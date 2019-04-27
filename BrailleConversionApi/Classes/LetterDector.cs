@@ -155,12 +155,12 @@ namespace BrailleConversionApi.Classes
 
             else if (Space())
             {
-                return " ";
+                return "$";
             }
 
             else
             {
-                return "Unknown";
+                return "$";
             }
 
 

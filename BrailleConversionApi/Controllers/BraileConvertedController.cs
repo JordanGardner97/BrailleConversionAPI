@@ -20,7 +20,7 @@ namespace BrailleConversionApi.Controllers
     {
 
         [HttpGet]
-        [Route("api/GetLetter/{Letter:alpha}")]
+        [Route("api/GetLetter/{Letter}")]
         public IHttpActionResult Get(String Letter)
         {
             BraileConverted letter = new BraileConverted(Letter);
@@ -115,20 +115,44 @@ namespace BrailleConversionApi.Controllers
             List<Bitmap> row =  converseImage.breakBigBitMapUp(bmp);
             Debug.WriteLine("I got ");
             List<List<Bitmap>> braileList = new List<List<Bitmap>>();
+
+           
+
+            int count = 0;
+
+
+            Debug.WriteLine("The size is " + row.Count);
+
             foreach (var i in row)
             {
-                Debug.WriteLine("The width of the bitmap is: " + i.Width);
-                Debug.WriteLine("The height of the bitmap is: " + i.Height);
+               
 
-                List<int>coordinates = converseImage.GetLocationOfAllCircles(converseImage.edgedetection(i));
+                //Debug.WriteLine("The width of the bitmap is: " + i.Width);
+                //Debug.WriteLine("The height of the bitmap is: " + i.Height);
+
+                try
+                {
+                    List<int> coordinates = converseImage.GetLocationOfAllCircles(i);
 
 
-                braileList.Add( converseImage.cropfromPhotedImage(converseImage.edgedetection(i), coordinates[0], coordinates[1], coordinates[2]));
+                   
+                    braileList.Add(converseImage.cropfromPhotedImage(converseImage.edgedetection(i), coordinates[0], coordinates[1], coordinates[2]));
+                    Debug.WriteLine("The count is " + count);
+                    count++;
+
+                }
+
+                catch (ArgumentOutOfRangeException){
+               
+                    braileList.Add(converseImage.cropfromPhotedImage(converseImage.edgedetection(i), 0, 0, 0));
+                    //Debug.WriteLine("The count is " + count);
+                    count++;
+                }
 
 
             }
 
-
+            List<String> letters = new List<String>();
             foreach (var j in braileList)
             {
 
@@ -139,18 +163,36 @@ namespace BrailleConversionApi.Controllers
 
                 LetterDector dectoring = new LetterDector(circleThereList);
 
-                BraileConverted letter = new BraileConverted();
+                
 
-                letter.CovertedBrailleLetter = dectoring.checkLetter();
+                
 
                 Debug.WriteLine("The letter is " + dectoring.checkLetter());
 
-                Debug.WriteLine("i HAVE FINISHED A ROUND "+"\n");
+                letters.Add(dectoring.checkLetter());
+
+
+                //Debug.WriteLine("i HAVE FINISHED A ROUND"+ count+"\n");
+               
+
+
+
             }
 
+            string allChars = null;
 
+            foreach (var k in letters)
+            {
 
+                if (k != "?")
+                {
 
+                    allChars += k;
+                }
+            }
+
+            BraileConverted letter = new BraileConverted();
+            letter.CovertedBrailleLetter = allChars;
 
 
 
@@ -160,9 +202,9 @@ namespace BrailleConversionApi.Controllers
             HttpRequestMessage request = new HttpRequestMessage();
 
 
-            //string url = "https://brailleconversionapi20190131031437.azurewebsites.net/api/GetLetter/" + letter.CovertedBrailleLetter;
+            string url = "https://brailleconversionapi20190131031437.azurewebsites.net/api/GetLetter/" + letter.CovertedBrailleLetter;
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
-            //response.Headers.Location = new Uri(url);
+            response.Headers.Location = new Uri(url);
 
             return response;
 
