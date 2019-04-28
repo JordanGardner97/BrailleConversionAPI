@@ -70,7 +70,6 @@ C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.Resource1.resources
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.csproj.GenerateResource.cache
 C:\Users\jorda\source\repos\BrailleConversionApi\BrailleConversionApi\obj\Debug\BrailleConversionApi.csprojAssemblyReference.cache
-C:\Users\jorda\source\repos\APITester\BrailleConversionApi\obj\Debug\BrailleConversionApi.csprojAssemblyReference.cache
 C:\Users\jorda\source\repos\APITester\BrailleConversionApi\obj\Debug\BrailleConversionApi.Resource1.resources
 C:\Users\jorda\source\repos\APITester\BrailleConversionApi\obj\Debug\BrailleConversionApi.csproj.GenerateResource.cache
 C:\Users\jorda\source\repos\APITester\BrailleConversionApi\obj\Debug\BrailleConversionApi.csproj.CoreCompileInputs.cache

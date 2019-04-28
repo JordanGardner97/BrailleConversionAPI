@@ -2,6 +2,7 @@
 using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Math.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -14,7 +15,14 @@ namespace BrailleConversionApi.Classes
 
         private List<Bitmap> bitmapList { get; set; }
 
+        private Bitmap fullBitma { get; set; }
+
         public CircleDetectionClass(List<Bitmap> bitmapList)
+        {
+            this.bitmapList = bitmapList;
+        }
+
+        public CircleDetectionClass(Bitmap fullBitmap)
         {
             this.bitmapList = bitmapList;
         }
@@ -118,6 +126,12 @@ namespace BrailleConversionApi.Classes
 
         }
 
+
+
+
+
+
+      
 
 
 

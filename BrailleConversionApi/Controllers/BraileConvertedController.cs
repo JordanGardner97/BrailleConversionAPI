@@ -46,7 +46,7 @@ namespace BrailleConversionApi.Controllers
 
             ImageCoversionClass normalPicture = new ImageCoversionClass(bmp);
 
-            //    Bitmap resizedImage =  normalPicture.ResizeImage();
+
             
             List<Bitmap> croppedPhotos = normalPicture.cropImageIntoSegments(normalPicture.edgedetection(bmp));
 
@@ -61,24 +61,11 @@ namespace BrailleConversionApi.Controllers
             letter.CovertedBrailleLetter = dectoring.checkLetter();
 
 
-            /*  ImageCoversionClass normalPicture = new ImageCoversionClass();
-              Debug.WriteLine("Got Here");
-              Bitmap blackImage = normalPicture.GreyImage(bmp);
-              Bitmap greyImage = normalPicture.Invert(blackImage);
-              SimilarityClass sim = new SimilarityClass();
-              BraileConverted letter = new BraileConverted();
-              letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
-              */
-
-
-
-
-
 
             Debug.WriteLine("The Letter is "+ letter.CovertedBrailleLetter);
             HttpRequestMessage request = new HttpRequestMessage();
 
-        
+           //Returns the string to the in the 
            string url = "https://brailleconversionapi20190131031437.azurewebsites.net/api/GetLetter/" + letter.CovertedBrailleLetter;
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
            response.Headers.Location = new Uri( url);
@@ -89,7 +76,7 @@ namespace BrailleConversionApi.Controllers
 
 
 
-
+        //for more then one bit map use
         [HttpPost]
         [Route("api/GetLetterReponse2")]
         public async Task<HttpResponseMessage> Post2()
@@ -112,11 +99,11 @@ namespace BrailleConversionApi.Controllers
             ImageCoversionClass converseImage = new ImageCoversionClass();
             Debug.WriteLine("I got 2");
 
-            List<Bitmap> row =  converseImage.breakBigBitMapUp(bmp);
+            List<Bitmap> row = converseImage.breakBigBitMapUp(bmp);
             Debug.WriteLine("I got ");
             List<List<Bitmap>> braileList = new List<List<Bitmap>>();
 
-           
+
 
             int count = 0;
 
@@ -125,7 +112,7 @@ namespace BrailleConversionApi.Controllers
 
             foreach (var i in row)
             {
-               
+
 
                 //Debug.WriteLine("The width of the bitmap is: " + i.Width);
                 //Debug.WriteLine("The height of the bitmap is: " + i.Height);
@@ -135,15 +122,16 @@ namespace BrailleConversionApi.Controllers
                     List<int> coordinates = converseImage.GetLocationOfAllCircles(i);
 
 
-                   
+
                     braileList.Add(converseImage.cropfromPhotedImage(converseImage.edgedetection(i), coordinates[0], coordinates[1], coordinates[2]));
                     Debug.WriteLine("The count is " + count);
                     count++;
 
                 }
 
-                catch (ArgumentOutOfRangeException){
-               
+                catch (ArgumentOutOfRangeException)
+                {
+
                     braileList.Add(converseImage.cropfromPhotedImage(converseImage.edgedetection(i), 0, 0, 0));
                     //Debug.WriteLine("The count is " + count);
                     count++;
@@ -163,9 +151,9 @@ namespace BrailleConversionApi.Controllers
 
                 LetterDector dectoring = new LetterDector(circleThereList);
 
-                
 
-                
+
+
 
                 Debug.WriteLine("The letter is " + dectoring.checkLetter());
 
@@ -173,7 +161,7 @@ namespace BrailleConversionApi.Controllers
 
 
                 //Debug.WriteLine("i HAVE FINISHED A ROUND"+ count+"\n");
-               
+
 
 
 
@@ -213,6 +201,7 @@ namespace BrailleConversionApi.Controllers
 
 
 
+
         private string GetDeserializedFileName(MultipartFileData fileData)
         {
             var fileName = GetFileName(fileData);
@@ -225,123 +214,44 @@ namespace BrailleConversionApi.Controllers
         }
 
 
-        [HttpPost]
-        [Route("api/GetLetter")]
-        public async Task<IHttpActionResult> AddFile()
-        {
-            if (!Request.Content.IsMimeMultipartContent())
-            {
-                this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
-            }
+        //[HttpPost]
+        //[Route("api/GetLetter")]
+        //public async Task<IHttpActionResult> AddFile()
+        //{
+        //    if (!Request.Content.IsMimeMultipartContent())
+        //    {
+        //        this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+        //    }
 
-            string root = HttpContext.Current.Server.MapPath("~/");
-            var provider = new MultipartFormDataStreamProvider(root);
-            var result = await Request.Content.ReadAsMultipartAsync(provider);
+        //    string root = HttpContext.Current.Server.MapPath("~/");
+        //    var provider = new MultipartFormDataStreamProvider(root);
+        //    var result = await Request.Content.ReadAsMultipartAsync(provider);
 
-            var originalFileName = GetDeserializedFileName(result.FileData.First());
+        //    var originalFileName = GetDeserializedFileName(result.FileData.First());
 
-            var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
-            string path = result.FileData.First().LocalFileName;
+        //    var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
+        //    string path = result.FileData.First().LocalFileName;
             
-            BraileConverted letter = new BraileConverted();
-            Bitmap image = new Bitmap(path);
-            //Stopping here
-            ImageCoversionClass normalPicture = new ImageCoversionClass();
-            Debug.WriteLine("Got Here");
-            Bitmap greyImage = normalPicture.Invert(image);
+        //    BraileConverted letter = new BraileConverted();
+        //    Bitmap image = new Bitmap(path);
+        //    //Stopping here
+        //    ImageCoversionClass normalPicture = new ImageCoversionClass();
+           
+        //    Bitmap greyImage = normalPicture.Invert(image);
 
-            BraileImages m = new BraileImages();
+        //    BraileImages m = new BraileImages();
 
-            SimilarityClass sim = new SimilarityClass();
+        //    SimilarityClass sim = new SimilarityClass();
 
-            letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
+        //    letter.CovertedBrailleLetter = sim.GetLetter(greyImage);
 
-            return Ok(letter.CovertedBrailleLetter);
-        }
-
-
-
-
-        /*
-
-        [HttpPost]
-        [Route("api/PostImage")]
-        public async Task<HttpResponseMessage> AddFile()
-        {
-            // Check if the request contains multipart/form-data.
-            if (!Request.Content.IsMimeMultipartContent())
-            {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-            }
-
-            string root = HttpContext.Current.Server.MapPath("~/");
-            var provider = new MultipartFormDataStreamProvider(root);
-
-            try
-            {
-                // Read the form data.
-                await Request.Content.ReadAsMultipartAsync(provider);
-               // Stream stream = content.ReadAsStreamAsync().Result;
-
-                // This illustrates how to get the file names.
-                foreach (MultipartFileData file in provider.FileData)
-                {
-                    Trace.WriteLine(file.Headers.ContentDisposition.FileName);
-                    Trace.WriteLine("Server file path: " + file.LocalFileName);
-                }
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-            catch (System.Exception e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
-            }
-        }
-
-       
+        //    return Ok(letter.CovertedBrailleLetter);
+        //}
 
 
 
 
-        public IHttpActionResult Post()
-        {
-            Image image = null;
-            var result = new HttpResponseMessage(HttpStatusCode.OK);
-            if (Request.Content.IsMimeMultipartContent())
-            {
-
-                Request.Content.ReadAsMultipartAsync<MultipartMemoryStreamProvider>(new MultipartMemoryStreamProvider()).ContinueWith((task) =>
-                {
-                    MultipartMemoryStreamProvider provider = task.Result;
-                    foreach (HttpContent content in provider.Contents)
-                    {
-                        Stream stream = content.ReadAsStreamAsync().Result;
-                        image = Image.FromStream(stream);
-                        var testName = content.Headers.ContentDisposition.Name;
-                        String filePath = HostingEnvironment.MapPath("~/Images/");
-                        String[] headerValues = (String[])Request.Headers.GetValues("UniqueId");
-                        String fileName = headerValues[0] + ".jpg";
-                        String fullPath = Path.Combine(filePath, fileName);
-                        image.Save(fullPath);
-                    }
-                });
-
-
-
-
-                return result;
-            }
-            else
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted"));
-            }
-
-
-        }*/
-
-
-
-
-
+  
 
 
     }

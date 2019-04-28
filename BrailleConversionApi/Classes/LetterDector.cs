@@ -177,7 +177,7 @@ namespace BrailleConversionApi.Classes
         //1 Letter A
         private bool LetterA()
         {
-            // topLeft Y          topRight N          midLeft N          midRight N         bottomLeft N       bottomRight N
+            // topLeft Yes         topRight No       midLeft No         midRight No        bottomLeft Np     bottomRight No
             if (CircleThere[0] && !CircleThere[1] && !CircleThere[2] && !CircleThere[3] && !CircleThere[4] && !CircleThere[5])
             {
                 return true;
@@ -195,7 +195,7 @@ namespace BrailleConversionApi.Classes
         //2 Letter B
         private bool LetterB()
         {
-            // topLeft Y          topRight N         midLeft Y         midRight N         bottomLeft N       bottomRight N
+            // topLeft Yes         topRight No       midLeft Yes        midRight No        bottomLeft No      bottomRight No
             if (CircleThere[0] && !CircleThere[1] && CircleThere[2] && !CircleThere[3] && !CircleThere[4] && !CircleThere[5])
             {
                 return true;

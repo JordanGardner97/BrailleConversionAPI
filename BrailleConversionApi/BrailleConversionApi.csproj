@@ -118,6 +118,8 @@
     <None Include="Resources\LetterX.jpg" />
     <None Include="Resources\LetterY.jpg" />
     <None Include="Resources\LetterZ.jpg" />
+    <None Include="Resources\BrailleImage.bmp" />
+    <None Include="Resources\Actual3.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

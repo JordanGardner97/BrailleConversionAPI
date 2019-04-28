@@ -131,7 +131,7 @@ namespace BrailleConversionApi.Classes
             List<Bitmap> m = new List<Bitmap>();
 
             Crop TopLeft = new Crop(new Rectangle((leftpoint - radius), (highpoint - radius), (radius * 3), (radius * 3) + 5));
-            Crop TopRight = new Crop(new Rectangle((leftpoint + radius ), (highpoint - radius), (radius * 3), (radius * 3) + 5));
+            Crop TopRight = new Crop(new Rectangle((leftpoint + radius), (highpoint - radius), (radius * 3), (radius * 3) + 5));
 
 
             Crop MidLeft = new Crop(new Rectangle((leftpoint - radius), (highpoint + radius), (radius * 3), (radius * 3) + 5));
@@ -468,12 +468,12 @@ namespace BrailleConversionApi.Classes
         public List<int> GetLocationOfAllCircles(Bitmap bit)
         {
 
-         
+
             Bitmap bits = edgedetection(bit);
             List<int> circleX = new List<int>();
             List<int> circleY = new List<int>();
             List<int> circleRadius = new List<int>();
-            
+
             SimpleShapeChecker shapeChecker = new SimpleShapeChecker();
 
             BlobCounter blobCounter = new BlobCounter();
@@ -515,7 +515,7 @@ namespace BrailleConversionApi.Classes
             try
             {
 
-                
+
 
                 return getLoctaionOfCircle(bits, circleX, circleY, circleRadius);
             }
@@ -550,7 +550,7 @@ namespace BrailleConversionApi.Classes
                 int highestDot = circle1Y[0];
                 int biggestRadius = radius1[0];
 
-             
+
                 foreach (var item in circleX)
                 {
                     if (item < leftMostItem)
@@ -582,9 +582,9 @@ namespace BrailleConversionApi.Classes
 
                 Debug.WriteLine("\n");
 
-                Debug.WriteLine("leftMostItem:" + leftMostItem );
+                Debug.WriteLine("leftMostItem:" + leftMostItem);
 
-                Debug.WriteLine("highestDot:" + highestDot );
+                Debug.WriteLine("highestDot:" + highestDot);
 
                 Debug.WriteLine("biggestRadius:" + biggestRadius);
 
@@ -660,7 +660,7 @@ namespace BrailleConversionApi.Classes
                 CannyEdgeDetector filter = new CannyEdgeDetector();
                 // apply the filter
                 filter.ApplyInPlace(nn);
-             
+
                 return nn;
 
             }
@@ -671,7 +671,7 @@ namespace BrailleConversionApi.Classes
                 CannyEdgeDetector filter = new CannyEdgeDetector();
                 // apply the filter
                 filter.ApplyInPlace(n);
-       
+
                 return n;
             }
         }

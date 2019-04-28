@@ -63,6 +63,16 @@ namespace BrailleConversionApi {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Actual3 {
+            get {
+                object obj = ResourceManager.GetObject("Actual3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LetterA {
             get {
                 object obj = ResourceManager.GetObject("LetterA", resourceCulture);
